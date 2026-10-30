@@ -1,11 +1,11 @@
 export function totalParcelado(valorParcela: number, numeroParcelas: number): number {
-    return valorParcela * numeroParcelas;
+  return valorParcela * numeroParcelas;
 }
 
-export function taxaMensalEquivalente(taxaAnual: number) {
-    return taxaAnual / 12;
+export function taxaMensalEquivalente(taxaAnual: number): number {
+  return (1 + taxaAnual) ** (1 / 12) - 1;
 }
 
-export function taxaAnualEquivalente(taxaMensal: number){
-    return taxaMensal * 12
+export function taxaAnualEquivalente(taxaMensal: number): number {
+  return (1 + taxaMensal) ** 12 - 1;
 }
