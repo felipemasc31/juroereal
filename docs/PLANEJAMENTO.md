@@ -1,11 +1,13 @@
 # Juro, é Real: planejamento da v1
 
 ## 1. Objetivo
+
 Um site de simuladores financeiros pra leigos, que complementa os vídeos do @juroereal. Projeto de portfólio público.
 
 ## 2. Escopo da v1
 
 **Entra:**
+
 - Página inicial com a lista de simuladores
 - Simulador "Parcelado ou à vista?" com veredito em reais
 - Preview do link (Open Graph)
@@ -13,6 +15,7 @@ Um site de simuladores financeiros pra leigos, que complementa os vídeos do @ju
 - CI e deploy
 
 **Não entra:**
+
 - Login ou cadastro
 - Simulador de horas de trabalho e "antes e agora" (ficam pra v2)
 - Pixel da Meta, painel admin, dark/light toggle
@@ -41,6 +44,7 @@ Analytics: Umami Cloud; Sem cookies, registra eventos
 **Qualquer biblioteca fora dessas listas precisa de um motivo escrito no PR.**
 
 ## 4. Estrutura de pastas
+
 ```
 juroereal/
 ├─ apps/
@@ -67,6 +71,7 @@ juroereal/
 ```
 
 ## 5. Fluxo dos dados
+
 ```
 Banco Central (SGS 432 e 433)
       │  cron diário + POST /admin/sincronizar
@@ -78,9 +83,11 @@ Next.js (busca no servidor, revalidate 1h)
       ▼
 Navegador: formulário → packages/core calcula → resultado + card
 ```
+
 O front nunca chama o Banco Central diretamente.
 
 ## 6. Banco de dados
+
 ```prisma
 model Indicador {
   id          Int      @id @default(autoincrement())
@@ -117,14 +124,17 @@ GET: `/docs`; Swagger
 **Entradas:** preço à vista, número de parcelas (1 a 48), valor da parcela, se a 1ª parcela é paga no ato, onde o dinheiro fica (100% do CDI ou poupança) e a Selic anual.
 
 **Juro implícito mensal (i), achado por bisseção:**
+
 - 1ª parcela em 30 dias: `vista = parcela × (1 − (1+i)^−n) / i`
 - 1ª parcela no ato: `vista = parcela × (1+i) × (1 − (1+i)^−n) / i`
 
 **Rendimento líquido mensal (r):**
+
 - 100% do CDI: Selic convertida pra mensal, menos o IR pelo prazo da compra (22,5% até 180 dias, 20% de 181 a 360, 17,5% de 361 a 720, 15% acima disso).
 - Poupança: 0,5% a.m. se a Selic estiver acima de 8,5%; senão, 70% da Selic convertida pra mensal. Não paga IR.
 
 **Veredito:**
+
 - Calcule o valor presente das parcelas descontado por `r` e compare com o preço à vista.
 - A margem de empate é o maior valor entre R$ 5 e 0,5% do preço à vista.
 - O resultado é "à vista", "parcelar" ou "tanto faz", sempre com o valor em reais.
@@ -144,6 +154,7 @@ Faixas de IR nos limites (6, 7, 12, 13, 24 e 25 meses); alíquota correta em cad
 Entradas inválidas; erro tipado
 
 ## 9. Git Flow
+
 - **Branches:** `main` sempre funcionando; uma branch por etapa (`feat/core-parcelado`).
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `test:`, `chore:`, `docs:`).
 - **Pull request:** abra um por etapa, mesmo trabalhando sozinho.
@@ -165,6 +176,7 @@ Entradas inválidas; erro tipado
 | 8 | CI, README completo em inglês, deploy, UptimeRobot, sincronização agendada | Link no ar e na bio
 
 ## 11. Ideias pra depois (não mexer na v1)
+
 - Simulador de horas de trabalho
 - "Antes e agora" com o IPCA
 - Pixel da Meta, quando houver anúncio
@@ -180,6 +192,7 @@ Regra do IR mudar; Tabela num único arquivo de constantes
 ---
 
 ## Plano priorizado
+
 1. **Agora (etapa 0):** criar `docs/PLANEJAMENTO.md` com o texto acima, um `README.md` com uma linha e a LICENSE MIT com o seu nome. Commit: `docs: planejamento da v1`.
 2. **Hoje à noite ou amanhã:** conversa nova com o prompt "modo mentor" e etapa 1.
 3. **Neste fim de semana:** etapa 2, o core. É a única parte que você escreve sem a IA te dar a resposta.
