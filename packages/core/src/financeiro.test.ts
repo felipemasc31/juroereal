@@ -31,18 +31,18 @@ describe('taxaAnualEquivalente', () => {
 
 describe('saldoFinalParcelando', () => {
   it('sem desconto', () => {
-    expect(saldoFinalParcelando(100, 10, 0.01, false, 1000)).toBeCloseTo(58.4, 2);
+    expect(saldoFinalParcelando(true)).toBeCloseTo(58.4, 2);
   });
 
   it('5% de desconto', () => {
-    expect(saldoFinalParcelando(100, 10, 0.01, false, 950)).toBeCloseTo(3.17, 2);
+    expect(saldoFinalParcelando(100, 10, 0.01, 950, true)).toBeCloseTo(3.17, 2);
   });
 
   it('10% de desconto', () => {
-    expect(saldoFinalParcelando(100, 10, 0.01, false, 900)).toBeCloseTo(-52.06, 2);
+    expect(saldoFinalParcelando(100, 10, 0.01, 900, true)).toBeCloseTo(-52.06, 2);
   });
 
   it('duas parcelas', () => {
-    expect(saldoFinalParcelando(100, 10, 0, false, 1000)).toBeCloseTo(0);
+    expect(saldoFinalParcelando(100, 10, 0, 1000, true)).toBeCloseTo(0);
   });
 });

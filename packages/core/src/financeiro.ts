@@ -14,14 +14,21 @@ export function saldoFinalParcelando(
   valorParcela: number,
   numeroParcelas: number,
   taxaMensal: number,
-  primeiraNoAto: boolean,
   precoAVista: number,
+  primeiraNoAto: boolean,
 ): number {
-  let valorHoje = precoAVista;
+  let saldo = precoAVista;
 
-  for (let i = 1; i <= numeroParcelas; i++) {
-    valorHoje = valorHoje + valorHoje * taxaMensal;
-    valorHoje = valorHoje - valorParcela;
+  if (primeiraNoAto) {
+    for (let i = 1; i <= numeroParcelas; i++) {
+      saldo = saldo - valorParcela;
+      saldo = saldo * (1 + taxaMensal);
+    }
+  } else {
+    for (let i = 1; i <= numeroParcelas; i++) {
+      saldo = saldo + saldo * taxaMensal;
+      saldo = saldo - valorParcela;
+    }
   }
-  return valorHoje;
+  return saldo;
 }
