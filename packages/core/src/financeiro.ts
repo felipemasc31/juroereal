@@ -10,6 +10,18 @@ export function taxaAnualEquivalente(taxaMensal: number): number {
   return (1 + taxaMensal) ** 12 - 1;
 }
 
-export function valorPresenteParcelas(valorParcela: number, numeroParcelas: number, taxaMensal: number, primeiraNoAto: boolean): number {
-    return valorParcela / (1 + taxaMensal)**1;
+export function saldoFinalParcelando(
+  valorParcela: number,
+  numeroParcelas: number,
+  taxaMensal: number,
+  primeiraNoAto: boolean,
+  precoAVista: number,
+): number {
+  let valorHoje = precoAVista;
+
+  for (let i = 1; i <= numeroParcelas; i++) {
+    valorHoje = valorHoje + valorHoje * taxaMensal;
+    valorHoje = valorHoje - valorParcela;
+  }
+  return valorHoje;
 }

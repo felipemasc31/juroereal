@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { totalParcelado, taxaMensalEquivalente, taxaAnualEquivalente, valorPresenteParcelas } from './financeiro';
+import {
+  totalParcelado,
+  taxaMensalEquivalente,
+  taxaAnualEquivalente,
+  saldoFinalParcelando,
+} from './financeiro';
 
 describe('totalParcelado', () => {
   it('multiplica o valor da parcela pelo número de parcelas', () => {
@@ -24,20 +29,20 @@ describe('taxaAnualEquivalente', () => {
   });
 });
 
-describe('valorPresenteParcelas', () => {
-    it('uma parcela', () => {
-        expect(valorPresenteParcelas(101, 1, 0.01, false)).toBeCloseTo(100, 2);
-    });
+describe('saldoFinalParcelando', () => {
+  it('sem desconto', () => {
+    expect(saldoFinalParcelando(100, 10, 0.01, false, 1000)).toBeCloseTo(58.4, 2);
+  });
 
-    it('sem rendimento', () => {
-    expect(valorPresenteParcelas(200, 12, 0.01, false)).toBeCloseTo(2400, 2)
-    });
-    
-    it('duas parcelas', () => {
-    expect(valorPresenteParcelas(100, 2, 0.01, false)).toBeCloseTo(197.04, 2)
-    });
+  it('5% de desconto', () => {
+    expect(saldoFinalParcelando(100, 10, 0.01, false, 950)).toBeCloseTo(3.17, 2);
+  });
 
-    it('duas parcelas', () => {
-    expect(valorPresenteParcelas(100, 2, 0.01, true)).toBeCloseTo(199.01, 2)
-    });
+  it('10% de desconto', () => {
+    expect(saldoFinalParcelando(100, 10, 0.01, false, 900)).toBeCloseTo(-52.06, 2);
+  });
+
+  it('duas parcelas', () => {
+    expect(saldoFinalParcelando(100, 10, 0, false, 1000)).toBeCloseTo(0);
+  });
 });
