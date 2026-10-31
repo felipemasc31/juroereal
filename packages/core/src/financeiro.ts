@@ -26,7 +26,7 @@ export function saldoFinalParcelando(
     }
   } else {
     for (let i = 1; i <= numeroParcelas; i++) {
-      saldo = saldo + saldo * taxaMensal;
+      saldo = saldo * (1 + taxaMensal);
       saldo = saldo - valorParcela;
     }
   }
